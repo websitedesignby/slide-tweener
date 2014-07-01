@@ -28,12 +28,6 @@ License: GPL2
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-function slide_tweener_setup(){
-    // add_action('wp_head', array('SlideTweener', 'do_test'));
-    add_action('wp_head', array('SlideTweener', 'get_header'));
-
-}
-
 // setup admin options
 // add_action('admin_menu', array('SlideTweener', 'plugin_menu'));
 // add_action( 'admin_menu', array ('SlideTweener', 'add_submenu') );
@@ -107,11 +101,6 @@ class SlideTweener {
         }
         return $myrows;
     }
-	
-
-    function get_header(){
-        // $this->required_css();
-    }
 
     function displayGallery($gallery_id=0, $type="fader"){
         if($gallery_id > 0){
@@ -126,90 +115,57 @@ class SlideTweener {
         }
         if($this->tweener_id > 0){
             $this->getTweener($this->tweener_id);
-            $this->required_css();
             $this->required_xhtml();
-            $this->required_js();
         }
     }
 
-    function required_css(){
-        echo "\n<style type=\"text/css\">
-            #tweener{
-		/* width: ".$this->tweener->width."px; */ /* hide for responsive */
-                height: ".$this->tweener->height."px;
-		max-width: ".$this->tweener->width."px;
-		height: ".$this->tweener->height."px;
-		overflow:hidden;
-            }
-            #tweener .slide{
-                width:".$this->tweener->width."px; /* hide for responsive */
-                height: ".$this->tweener->height."px;
-                background-repeat: no-repeat;
-                position: absolute; /* hide for reponsive */
-		overflow:hidden;
-            }
-            #tweener a.slide-link{
-                display:block;
-                width:".$this->tweener->width."px;
-                height:".$this->tweener->height."px;
-                z-index: 1000;
-                position: absolute;
-            }";
-            $i=1;
-            foreach($this->slides as $slide){
-                $background_image = get_bloginfo('wpurl')."/".$slide->path."/".$slide->filename;
-
-            echo "
-            #slide". $i ."{
-                display:none;
-                z-index: ". $i .";
-                background-image:url(".$background_image.");
-            }";
-               $i++;
-            }
-
-            echo "
-            .slide{
-                position: relative;
-                color:#ffffff;
-            }
-            .slide-content{
-                position:absolute;
-            }
-            .slide-title{
-                position:absolute;
-            }
-            .slide-text{
-                position:absolute;
-            }
-            .slide-text p{
-                font-size: 16px;
-                line-height: 32px;
-            }
-
-            .slide .learn-more a{
-               display:none;
-               position:absolute;
-            }
-            .slide .learn-more a:hover{
-                text-decoration: underline;
-            }
-            </style>";
-        }
-
         function required_xhtml(){
             // rs_print_array($this->slides);
-             echo "<div id=\"tweener\">";
+            
+            /* Inline Styles */
+            
+            $css_id_tweener = $this->tweener->height."px;"
+                    . "max-width: ".$this->tweener->width."px; "
+                    . "height: ".$this->tweener->height."px;"
+                    . "overflow:hidden;"
+                    . "position:relative;";
+            
+            $css_class_slide_content = $css_class_slide_title = $css_class_slide_text = "position:absolute;";
+            
+            $css_id_tweener_a_class_slide_link = " display:block;"
+                    . " width:".$this->tweener->width."px;"
+                    . "height:".$this->tweener->height."px;"
+                    . "z-index: 1000;"
+                    . "position: absolute;";
+            
+            $css_learn_more_a = "position:absolute;display:none;";
+            
+            
+             echo "<div id=\"tweener\" style=\"" . $css_id_tweener . "\">";
                 $i = 1;
+                $total_count = count($this->slides);
                 foreach($this->slides as $slide){
-                    echo "<div class=\"slide\" id=\"slide". $i ."\">
-                            <div class=\"slide-text\">
-                            <div class=\"slide-title\"><h1>".
+                    
+                    /* Additional Slide CSS */
+                    $css_class_slide = "width:".$this->tweener->width."px;"
+                    . " height: ".$this->tweener->height."px;"
+                    . "background-repeat: no-repeat;"
+                    . "position: absolute; "
+                    . "color:#ffffff;"
+                    . "overflow:hidden;";
+                    $background_image = get_bloginfo('wpurl')."/".$slide->path."/".$slide->filename;
+                    $css_class_slide .= "background-image:url(".$background_image.");"
+                            . "display:none;"
+                            . "z-index: ". $i .";";
+                    
+                    echo "<div class=\"slide\" id=\"slide". $i ."\" style=\"" . $css_class_slide . "\">
+                            <div class=\"slide-text\" style=\"" . $css_class_slide_text . "\">
+                            <div class=\"slide-title\" style=\"" . $css_class_slide_title . "\"><h1>".
                                    stripslashes($slide->title) ."
                                 </h1></div>
-                                <div class=\"slide-content\">".
+                                <div class=\"slide-content\" style=\"" . $css_class_slide_content . "\">".
                             stripslashes($slide->excerpt)."</div>
-                                <div class=\"learn-more\"><a href=\"".$slide->url."\" class=\"button\" id=\"learn-more-click".$i."\">";
+                                <div class=\"learn-more\"><a href=\"".$slide->url."\" class=\"button\" id=\"learn-more-click".$i."\" style=\"" . $css_learn_more_a . "\">";
 		    if( ! empty( $slide->button_text) )
 			echo $slide->button_text;
 		    else 
@@ -218,7 +174,7 @@ class SlideTweener {
 		    echo "</a></div>
 
                             </div>
-                            <a href=\"".$slide->url."\" class=\"slide-link\"></a>
+                            <a href=\"".$slide->url."\" class=\"slide-link\" style=\"" . $css_id_tweener_a_class_slide_link  . "\"></a>
                         </div>";
                     $i++;
                 }
@@ -493,32 +449,51 @@ jQuery(document).ready(function(){
 
 /* uncomment below for wordpress setup....  */
 
-    add_action( 'plugins_loaded', 'slide_tweener_setup' );
-
     global $slide_tweener;
-    $slide_tweener = new SlideTweener();
-
-    add_action( 'admin_menu', 'setup_admin_menu' ); 
+    $slide_tweener = new SlideTweener(); 
+    
+    /*
+     *  Enqueue default CSS
+     */
+    function tweener_enqueue_scripts()
+    {
+        wp_enqueue_style( 'tweener1css', plugins_url('css/styles1.css', __FILE__) );
+    }
+    add_action( 'wp_enqueue_scripts', 'tweener_enqueue_scripts');
 
 
     function setup_admin_menu(){
 	    add_submenu_page( NGGFOLDER, 'Advanced Slideshow', 'Advanced Slides', 'NextGEN Manage gallery', 'slide-tweener', 'slide_tweener_admin' );
     }
+    add_action( 'admin_menu', 'setup_admin_menu' ); 
 
     function slide_tweener_admin(){
 	    global $slide_tweener;
 	    include('admin/tweener-admin.php');
     }
     
-    // [slide-tweener id=1]
+    /**
+     * Short Code
+     *
+     * [slide-tweener id=1]
+     * 
+     * @global SlideTweener $slide_tweener
+     * @param array $atts
+     */
     function slide_tweener_shortcode( $atts ) {
+        global $slide_tweener;
         $a = shortcode_atts( array(
             'id' => 1,
         ), $atts );
-
-        $slide_tweener->displayTweener($id);
+        
+        $slide_tweener->displayTweener($a['id']);
+        $slide_tweener->required_js();
     }
     add_shortcode( 'slide-tweener', 'slide_tweener_shortcode' );
+    
+    /**
+     *  Enque default CSS
+     */
     
     
  // END WordPress setup   
