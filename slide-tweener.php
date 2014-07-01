@@ -510,6 +510,17 @@ jQuery(document).ready(function(){
 	    include('admin/tweener-admin.php');
     }
     
+    // [slide-tweener id=1]
+    function slide_tweener_shortcode( $atts ) {
+        $a = shortcode_atts( array(
+            'id' => 1,
+        ), $atts );
+
+        $slide_tweener->displayTweener($id);
+    }
+    add_shortcode( 'slide-tweener', 'slide_tweener_shortcode' );
+    
+    
  // END WordPress setup   
     
  /*

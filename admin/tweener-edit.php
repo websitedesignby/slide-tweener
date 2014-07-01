@@ -15,8 +15,8 @@
         <input type="hidden" name="tweener_id" value="<?php echo $tweener_id;?>" />
         <div id="tweener">
             <ul>
-               <li><label for="height">Height:</label> <input name="height" value="<?php echo $tweener->height;?>" size="3" /> x 
-               <label for="width">Width:</label> <input name="width" value="<?php echo $tweener->width;?>" size="3" /></li>
+               <li><label for="height">Height:</label> <input name="height" value="<?php if( isset($tweener) ){ echo $tweener->height; }?>" size="3" /> x 
+               <label for="width">Width:</label> <input name="width" value="<?php if( isset($tweener) ){ echo $tweener->width; }?>" size="3" /></li>
             </ul>
         </div>
 <?php

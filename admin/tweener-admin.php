@@ -93,14 +93,22 @@ function tweener_install_db(){
      }
 
 }
+
+function tweener_db_check()
+{
+    global $tbl_tweener_slides, $wpdb;
+    $sql = "SHOW TABLES LIKE '" . $tbl_tweener_slides . "'";
+    $result = $wpdb->query($sql);
+    if( empty( $result ) )
+    {
+        tweener_install_db();
+    }
+}
+
 function tweener_insert($table, $name_values, $formats){
     global $wpdb;
-    $wpdb->hide_errors();
-    $wpdb->insert( $table, $name_values, $formats );
-     if(mysql_errno() == 1146){
-         tweener_install_db();
-         $wpdb->insert( $table, $name_values, $formats );
-     }
+    tweener_db_check();
+    $result = $wpdb->insert( $table, $name_values, $formats );
 }
 ?>
 <script language="javascript" type="text/javascript">
@@ -228,7 +236,7 @@ if(isset($_POST['tweener'])){
                     tweener_insert( $tbl_tweener, array( 'gallery_id' => $_POST['gallery_id'], 'height'=>$_POST['height'], 'width'=>$_POST['width'],
                                     'fadetime1'=>$_POST['fadetime1'], 'fadetime2'=>$_POST['fadetime2'], 'slide_delay'=>$_POST['delay'], 'paused'=>$_POST['paused'],
                                     'loop'=>$_POST['loop'], 'navigation'=>$_POST['navigation']), array('%d', '%d', '%d', '%d', '%d', '%d', '%s', '%s', '%d') );
-                    $tweener_id = mysql_insert_id();
+                    $tweener_id =  $wpdb->insert_id;
                     $sorters = array();
                     $pids = array();
                     if(isset($_POST['sorter'])){
