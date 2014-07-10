@@ -1,0 +1,146 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Jul 1, 2014, 8:35:15 AM
+    Author     : ross
+*/
+
+
+/*
+    Tweener
+----------------------------------------------- */
+
+#tweener{
+    margin:0px auto; /* centered */
+    font-family: 'Arial', 'Helvetica', 'sans-serif';
+}
+/*
+#tweener .top-right, #tweener .top-left, #tweener .bottom-left, #tweener .bottom-right{
+    height:14px;
+    width: 14px;
+    position: absolute;
+    background-repeat: no-repeat;
+    z-index: 99999;
+}
+*/
+#tweener #tweenNav{
+   z-index: 99999;
+   font-size:12px;
+   position:absolute;
+   top:455px;
+   left:450px;
+   width:180px;
+}
+#tweener #tweenNav .slide-nav a{
+    display:block;
+    float:left;
+    height:18px;
+    width:18px;
+    margin-right:7px;
+    text-align: center;
+    padding:0px;
+    color:#ffffff;
+	font-size:0px;
+	background-image:url(images/slide-nav.png);
+	background-repeat:no-repeat;
+	background-position:0px -15px;
+}
+#tweener #tweenNav #resume a{
+    width:25px;
+    height:22px;
+    background-image:url(images/resume.png);
+    background-repeat: no-repeat;
+    display:none;
+    padding:0px;
+    border:0px;
+}
+#tweener #tweenNav .selected a{
+    color:#000000;
+    background-position:0px 2px;
+}
+/*
+#tweener .top-right{
+    top:0px;
+    right:0px;
+    background-image:url(images/slide-tr.png);
+}
+#tweener .top-left{
+    top:0px;
+    left:0px;
+    background-image:url(images/slide-tl.png);
+}
+#tweener .bottom-left{
+    top:316px;
+    left:0px;
+    background-image:url(images/slide-bl.png);
+}
+#tweener .bottom-right{
+    top:316px;
+    right:0px;
+    background-image:url(images/slide-br.png);
+}
+*/
+/*
+#tweener #slide1 .slide-title, #tweener #slide1 .slide-content,
+#tweener #slide2 .slide-title, #tweener #slide2 .slide-content, 
+#tweener #slide3 .slide-title, #tweener #slide3 .slide-content,
+#tweener #slide4 .slide-title, #tweener #slide4 .slide-content,
+#tweener #slide5 .slide-title, #tweener #slide5 .slide-content,
+#tweener #slide6 .slide-title, #tweener #slide6 .slide-content,
+#tweener #slide7 .slide-title, #tweener #slide7 .slide-content
+*/
+#tweener .slide-title, #tweener .slide-content
+{
+     width: 420px;
+     /* border:1px solid #ffff00; */
+}
+#tweener .slide-content{
+    font-size:15px;
+}
+
+#tweener .learn-more a{
+    width:148px;
+    height:27px;
+    background-image:url(images/learn-more.png);
+    background-repeat: no-repeat;
+    color:#ffffff;
+    padding-left:19px;
+    padding-top:12px;
+    font-size:18px;
+}
+
+/* Slide Specific Styles
+-------------------------------------------- */
+/*
+#tweener .slide-text .slide-title{
+	color:#343434;
+}
+#tweener #slide2 .slide-content{
+	width:250px;
+	font-size:24px;
+	font-weight:bold;
+	text-shadow: 1px 2px 1px #000;
+}
+
+#tweener #slide3 .slide-content{
+	width:460px;
+        color:#3a61bc;
+	font-size:21px;
+	line-height:1.5em;
+	font-weight:bold;
+}
+#tweener #slide4 .slide-content{
+	color:#000000;
+}
+#tweener #slide5 .slide-text .slide-title{
+	width:325px;
+	text-align:center;
+}
+#tweener #slide5 .slide-text .slide-content{
+    width:267px;
+    font-size:24px;
+}
+*/
